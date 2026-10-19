@@ -6,3 +6,12 @@ build/
 out/
 .DS_Store
 local.properties
+
+# Plugin signing secrets — never commit these
+private.pem
+chain.crt
+.signing_passphrase
+*.pem
+*.crt
+*.p12
+*.ks

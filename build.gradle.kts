@@ -45,7 +45,7 @@ intellijPlatform {
         version = project.version.toString()
 
         ideaVersion {
-            sinceBuild = "242"
+            sinceBuild = "251"
             untilBuild = "252.*"
         }
 
@@ -83,7 +83,7 @@ intellijPlatform {
             select {
                 types = listOf(IntelliJPlatformType.IntellijIdeaCommunity)
                 channels = listOf(org.jetbrains.intellij.platform.gradle.models.ProductRelease.Channel.RELEASE)
-                sinceBuild = "242"
+                sinceBuild = "251"
                 untilBuild = "252.*"
             }
         }
