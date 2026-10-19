@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.github.viewbindingidfinder"
-version = "1.0.1"
+version = "1.0.2"
 
 repositories {
     mavenCentral()
@@ -63,7 +63,7 @@ intellijPlatform {
             url = "https://github.com/iamkurtgoz/ViewBindingIdFinder"
         }
 
-        changeNotes = "Remove upper compatibility bound so the plugin works on the latest Android Studio / IntelliJ builds (2025.1 and newer)."
+        changeNotes = "Detect usages through abstract/generic ViewBinding base classes; de-duplicate results; add a Find ViewBinding Parents action on layout files."
     }
 
     signing {

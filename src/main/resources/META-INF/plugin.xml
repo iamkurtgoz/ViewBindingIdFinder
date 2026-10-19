@@ -18,4 +18,14 @@
     <extensions defaultExtensionNs="org.jetbrains.kotlin">
         <supportsKotlinPluginMode supportsK1="true" supportsK2="true"/>
     </extensions>
+
+    <actions>
+        <action id="ViewBindingIdFinder.FindBindingParents"
+                class="com.github.viewbindingidfinder.FindBindingParentsAction"
+                text="Find ViewBinding Parents"
+                description="Find the classes that use this layout's generated ViewBinding class">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
+    </actions>
 </idea-plugin>

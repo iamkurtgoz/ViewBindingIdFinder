@@ -45,8 +45,14 @@ class BindingGutterNavigationHandler(
 
     private fun showResults(
         e: MouseEvent,
-        usages: List<BindingUsage>
+        rawUsages: List<BindingUsage>
     ) {
+        // Collapse to one entry per (file, line): the user never wants the same line twice.
+        val usages = rawUsages.distinctBy {
+            val file = it.navigationElement.containingFile?.name ?: "?"
+            file to lineNumber(it)
+        }
+
         if (usages.isEmpty()) {
             JBPopupFactory.getInstance()
                 .createMessage("No usages found via $bindingClassName.$fieldName")
@@ -68,7 +74,7 @@ class BindingGutterNavigationHandler(
                 label.icon = iconFor(value.kind)
                 val file = value.navigationElement.containingFile?.name ?: "?"
                 val line = lineNumber(value)
-                label.text = "[${value.kind}] $file:$line  —  ${value.containingText}"
+                label.text = "$file:$line"
                 label.isOpaque = true
                 label
             }
