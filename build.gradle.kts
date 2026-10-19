@@ -46,7 +46,7 @@ intellijPlatform {
 
         ideaVersion {
             sinceBuild = "242"
-            untilBuild = provider { null }
+            untilBuild = "252.*"
         }
 
         description = """
@@ -78,7 +78,14 @@ intellijPlatform {
 
     pluginVerification {
         ides {
-            recommended()
+            // Verify only within the supported range (242 .. 252.*); avoids false
+            // positives from far-future EAP builds that restructure XML modules.
+            select {
+                types = listOf(IntelliJPlatformType.IntellijIdeaCommunity)
+                channels = listOf(org.jetbrains.intellij.platform.gradle.models.ProductRelease.Channel.RELEASE)
+                sinceBuild = "242"
+                untilBuild = "252.*"
+            }
         }
     }
 }

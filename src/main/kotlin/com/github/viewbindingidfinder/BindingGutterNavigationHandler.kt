@@ -5,15 +5,13 @@ import com.intellij.icons.AllIcons
 import com.intellij.openapi.application.ReadAction
 import com.intellij.openapi.progress.ProgressIndicator
 import com.intellij.openapi.progress.Task
-import com.intellij.pom.Navigatable
+import com.intellij.openapi.ui.popup.JBPopupFactory
+import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElement
 import com.intellij.ui.awt.RelativePoint
-import com.intellij.openapi.ui.popup.JBPopupFactory
-import java.awt.Component
+import com.intellij.util.PsiNavigateUtil
 import java.awt.event.MouseEvent
 import javax.swing.Icon
-import javax.swing.JList
-import javax.swing.DefaultListCellRenderer
 import javax.swing.ListSelectionModel
 
 /**
@@ -61,30 +59,20 @@ class BindingGutterNavigationHandler(
             return
         }
 
-        val list = JList(usages.toTypedArray())
-        list.selectionMode = ListSelectionModel.SINGLE_SELECTION
-        list.cellRenderer = object : DefaultListCellRenderer() {
-            override fun getListCellRendererComponent(
-                l: JList<*>?, value: Any?, index: Int, selected: Boolean, focus: Boolean
-            ): Component {
-                val c = super.getListCellRendererComponent(l, value, index, selected, focus)
-                val usage = value as? BindingUsage
-                if (usage != null) {
-                    icon = iconFor(usage.kind)
-                    val file = usage.navigationElement.containingFile?.name ?: "?"
-                    val line = lineNumber(usage)
-                    text = "[${usage.kind}] $file:$line  —  ${usage.containingText}"
-                }
-                return c
-            }
-        }
-
         JBPopupFactory.getInstance()
-            .createListPopupBuilder(list)
+            .createPopupChooserBuilder(usages)
             .setTitle("ViewBinding usages of $bindingClassName.$fieldName")
-            .setItemChoosenCallback {
-                (list.selectedValue as? BindingUsage)?.let { navigateTo(it) }
+            .setSelectionMode(ListSelectionModel.SINGLE_SELECTION)
+            .setRenderer { _, value, _, _, _ ->
+                val label = javax.swing.JLabel()
+                label.icon = iconFor(value.kind)
+                val file = value.navigationElement.containingFile?.name ?: "?"
+                val line = lineNumber(value)
+                label.text = "[${value.kind}] $file:$line  —  ${value.containingText}"
+                label.isOpaque = true
+                label
             }
+            .setItemChosenCallback { usage -> navigateTo(usage) }
             .createPopup()
             .show(RelativePoint(e))
     }
@@ -97,14 +85,15 @@ class BindingGutterNavigationHandler(
     private fun lineNumber(usage: BindingUsage): Int {
         val psi = usage.navigationElement
         val file = psi.containingFile ?: return -1
-        val doc = com.intellij.psi.PsiDocumentManager.getInstance(psi.project).getDocument(file)
-            ?: return -1
+        val doc = PsiDocumentManager.getInstance(psi.project).getDocument(file) ?: return -1
         return doc.getLineNumber(psi.textOffset) + 1
     }
 
+    /**
+     * Navigate using the platform helper instead of invoking the @OverrideOnly
+     * Navigatable.navigate(boolean) directly.
+     */
     private fun navigateTo(usage: BindingUsage) {
-        (usage.navigationElement as? Navigatable)?.let {
-            if (it.canNavigate()) it.navigate(true)
-        }
+        PsiNavigateUtil.navigate(usage.navigationElement)
     }
 }
