@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.github.viewbindingidfinder"
-version = "1.0.0"
+version = "1.0.1"
 
 repositories {
     mavenCentral()
@@ -46,7 +46,7 @@ intellijPlatform {
 
         ideaVersion {
             sinceBuild = "251"
-            untilBuild = "252.*"
+            untilBuild = provider { null }
         }
 
         description = """
@@ -63,7 +63,7 @@ intellijPlatform {
             url = "https://github.com/iamkurtgoz/ViewBindingIdFinder"
         }
 
-        changeNotes = "Initial release."
+        changeNotes = "Remove upper compatibility bound so the plugin works on the latest Android Studio / IntelliJ builds (2025.1 and newer)."
     }
 
     signing {
@@ -84,7 +84,6 @@ intellijPlatform {
                 types = listOf(IntelliJPlatformType.IntellijIdeaCommunity)
                 channels = listOf(org.jetbrains.intellij.platform.gradle.models.ProductRelease.Channel.RELEASE)
                 sinceBuild = "251"
-                untilBuild = "252.*"
             }
         }
     }
