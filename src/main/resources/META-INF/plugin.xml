@@ -1,0 +1,16 @@
+<idea-plugin>
+    <!-- id, name, version, vendor, description are injected from build.gradle.kts
+         (intellijPlatform.pluginConfiguration) by the patchPluginXml task. -->
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.modules.xml</depends>
+    <depends>org.jetbrains.kotlin</depends>
+    <depends>com.intellij.java</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <codeInsight.lineMarkerProvider
+            language="XML"
+            implementationClass="com.github.viewbindingidfinder.ViewBindingLineMarkerProvider"/>
+    </extensions>
+</idea-plugin>
