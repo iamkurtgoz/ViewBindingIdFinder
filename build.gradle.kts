@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "com.github.viewbindingidfinder"
-version = "1.0.2"
+version = "1.0.3"
 
 repositories {
     mavenCentral()
@@ -95,7 +95,7 @@ intellijPlatform {
             url = "https://github.com/iamkurtgoz/ViewBindingIdFinder"
         }
 
-        changeNotes = "Detect usages through abstract/generic ViewBinding base classes; de-duplicate results; add a Find ViewBinding Parents action on layout files."
+        changeNotes = "Improve the plugin page description and documentation."
     }
 
     signing {
