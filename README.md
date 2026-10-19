@@ -176,3 +176,9 @@ Bump `version` in `build.gradle.kts` and update `changeNotes` for every release.
 - Matching is by the binding class **simple name**. If two modules generate binding classes
   with the same simple name for identically named layouts, usages from both would be listed.
 - Detection is static (UAST). Reflection-based or indirect access is not detected.
+
+## License
+
+Licensed under the [Apache License, Version 2.0](LICENSE).
+
+Copyright 2026 Mehmet Kurtgoz.
