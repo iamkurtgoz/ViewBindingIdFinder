@@ -50,11 +50,43 @@ intellijPlatform {
         }
 
         description = """
-            From an id in an Android XML layout, jump only to the code usages that access
-            that view through the layout's generated ViewBinding class
-            (e.g. <code>ActivityMainBinding.textTitle</code>), instead of every usage of the
-            raw id across the whole project. Read and write (set) usages are shown with
-            distinct gutter icons.
+            <p>Connects your Android layout XML to the code that uses it <b>through
+            ViewBinding</b> &mdash; precisely, not by matching raw ids across the whole
+            project.</p>
+
+            <h3>Features</h3>
+            <ul>
+              <li><b>Jump from an <code>android:id</code> to its ViewBinding usages.</b>
+                  Click the gutter icon next to any <code>android:id</code> in a layout and
+                  get only the places in code that access that view through the layout's
+                  generated binding class (e.g. <code>activity_main.xml</code> &rarr;
+                  <code>ActivityMainBinding</code>, <code>@+id/text_title</code> &rarr;
+                  <code>ActivityMainBinding.textTitle</code>).</li>
+              <li><b>Works with abstract / generic binding wrappers.</b> Detects usages even
+                  when the binding is exposed through a base class such as
+                  <code>abstract class ViewBindingActivity&lt;VB : ViewBinding&gt;</code> or a
+                  delegated <code>by viewBinding(...)</code> &mdash; not just direct
+                  <code>ActivityMainBinding</code> fields.</li>
+              <li><b>Find ViewBinding Parents.</b> Right-click a layout file (in the editor or
+                  the Project view) &rarr; <b>Find ViewBinding Parents</b> to jump to the
+                  class(es) that use that layout's binding. Opens directly if there is one,
+                  shows a chooser if there are several.</li>
+              <li><b>Kotlin and Java</b> are both supported.</li>
+            </ul>
+
+            <h3>How to use</h3>
+            <ul>
+              <li><b>From a layout id:</b> open a layout under <code>res/layout*/</code>, find
+                  the gutter icon next to an <code>android:id</code>, and click it. One usage
+                  navigates straight to it; multiple usages show a popup listing them as
+                  <code>File:line</code>.</li>
+              <li><b>From a layout file:</b> right-click the <code>.xml</code> file (editor tab
+                  or Project view) &rarr; <b>Find ViewBinding Parents</b> to go to the
+                  screen(s) that use its binding.</li>
+            </ul>
+
+            <p>Detection is static; reflection-based or fully indirect access is not
+            detected.</p>
         """.trimIndent()
 
         vendor {
